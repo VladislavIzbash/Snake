@@ -1,6 +1,6 @@
 #pragma once
 
-#include "INetwork.h"
+#include "Network.h"
 
 #include <SFML/Network/TcpSocket.hpp>
 

@@ -1,4 +1,4 @@
-#include "Core/Network/INetwork.h"
+#include "Core/Network/Network.h"
 #include "Core/Network/NetworkLocal.h"
 #include "Core/Network/NetworkServer.h"
 #include "Core/Network/NetworkClient.h"

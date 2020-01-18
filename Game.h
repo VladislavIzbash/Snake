@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Network/INetwork.h"
+#include "Core/Network/Network.h"
 
 
 class Game {
