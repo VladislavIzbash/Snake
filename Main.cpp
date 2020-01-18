@@ -1,4 +1,7 @@
-#include "Network.h"
+#include "Core/Network/INetwork.h"
+#include "Core/Network/NetworkLocal.h"
+#include "Core/Network/NetworkServer.h"
+#include "Core/Network/NetworkClient.h"
 #include "Renderer.h"
 
 #include <SFML/Graphics.hpp>
@@ -11,17 +14,22 @@ static const int WINDOW_SIZE = 800;
 
 int main(int argc, char** argv)
 {
-    Network* network = nullptr;
+    INetwork* network = nullptr;
     try {
-        if (argc == 1)
-            network = new Network(Network::Mode::Singleplayer, "");
-        else if (std::string(argv[1]) == "0.0.0.0")
-            network = new Network(Network::Mode::Server, "");
-        else
-            network = new Network(Network::Mode::Client, sf::IpAddress(argv[1]));
+        if (argc == 1) {
+            network = new NetworkLocal();
+
+        } else if (std::string(argv[1]) == "0.0.0.0") {
+            network = new NetworkServer();
+            network->setup("");
+
+        } else {
+            network = new NetworkClient();
+            network->setup(sf::IpAddress(argv[1]));
+
+        }
     } catch (std::runtime_error& error) {
         std::cerr << "FATAL: " << error.what() << std::endl;
-
         return 1;
     }
 

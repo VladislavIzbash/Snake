@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Network.h"
+#include "Core/Network/INetwork.h"
 
 
 class Game {
 public:
-    explicit Game(Network& network);
+    explicit Game(INetwork& network);
 
 private:
     static const int CELL_SIZE = 50;
 
-    Network& m_network;
+    INetwork& m_network;
 };
