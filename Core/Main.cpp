@@ -1,8 +1,9 @@
-#include "Core/Network/Network.h"
-#include "Core/Network/NetworkLocal.h"
-#include "Core/Network/NetworkServer.h"
-#include "Core/Network/NetworkClient.h"
+#include "Network/Network.h"
+#include "Network/NetworkLocal.h"
+#include "Network/NetworkServer.h"
+#include "Network/NetworkClient.h"
 #include "Renderer.h"
+#include "Logger.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -29,7 +30,7 @@ int main(int argc, char** argv)
 
         }
     } catch (std::runtime_error& error) {
-        std::cerr << "FATAL: " << error.what() << std::endl;
+        Logger(Priority::Critical) << error.what() << std::endl;
         return 1;
     }
 

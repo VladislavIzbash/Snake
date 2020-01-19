@@ -1,6 +1,7 @@
 #include "NetworkServer.h"
 
 #include "Network.h"
+#include "../Logger.h"
 
 #include <SFML/Network.hpp>
 
@@ -14,7 +15,7 @@ void NetworkServer::setup(const sf::IpAddress &ip_address)
 
     (new std::thread(&NetworkServer::acceptLoopThread, this))->detach();
 
-    std::cout << "Started server on 0.0.0.0:" << NETWORK_PORT << std::endl;
+    Logger(Priority::Info) << "Started server on 0.0.0.0:" << NETWORK_PORT << std::endl;
 }
 
 void NetworkServer::acceptLoopThread()
@@ -23,19 +24,19 @@ void NetworkServer::acceptLoopThread()
         sf::TcpSocket* client_socket = new sf::TcpSocket();
 
         if (m_listener.accept(*client_socket) != sf::Socket::Done) {
-            std::cerr << "WARN: accept failed" << std::endl;
+            Logger(Priority::Warning) << "Client accept failed" << std::endl;
             continue;
         }
 
         sf::Packet packet;
         if (client_socket->receive(packet) != sf::Socket::Done) {
-            std::cerr << "WARN: connection with client lost" << " (" << client_socket->getRemoteAddress() << ")" << std::endl;
+            Logger(Priority::Warning) << "Connection with client lost" << " (" << client_socket->getRemoteAddress() << ")" << std::endl;
             continue;
         }
         sf::Uint8 header;
         packet >> header;
         if (static_cast<Request>(header) != Request::Join) {
-            std::cerr << "WARN: invalid join request" << " (" << client_socket->getRemoteAddress() << ")" << std::endl;
+            Logger(Priority::Warning) << "Invalid join request" << " (" << client_socket->getRemoteAddress() << ")" << std::endl;
             continue;
         }
 
@@ -43,5 +44,6 @@ void NetworkServer::acceptLoopThread()
         client_socket->send(packet);
 
         m_client_list.push_back(client_socket);
+        Logger(Priority::Info) << "Player #" << m_client_list.size() << " accepted" << std::endl;
     }
 }

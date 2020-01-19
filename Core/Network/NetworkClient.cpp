@@ -1,6 +1,7 @@
 #include "NetworkClient.h"
 
 #include "Network.h"
+#include "../Logger.h"
 
 #include <SFML/Network.hpp>
 
@@ -24,5 +25,5 @@ void NetworkClient::setup(const sf::IpAddress &ip_address)
     if (static_cast<Response>(header) != Response::JoinOk)
         throw std::runtime_error("Invalid server");
 
-    std::cout << "Connected to " << ip_address << ":" << NETWORK_PORT << std::endl;
+    Logger(Priority::Info) << "Connected to " << ip_address << ":" << NETWORK_PORT << std::endl;
 }
