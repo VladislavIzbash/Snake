@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "../BaseObjects/Background.h"
+
 class Renderer {
 public:
     explicit Renderer(sf::RenderWindow& window);
@@ -10,6 +12,6 @@ public:
 
 private:
     sf::RenderWindow& m_window;
+    Background m_background;
 
-    void drawBackground();
 };
