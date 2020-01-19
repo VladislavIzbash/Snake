@@ -11,9 +11,9 @@ Background::Background(sf::Vector2f position, sf::Vector2u window_size, sf::Colo
     m_background_rect.setFillColor(color);
 }
 
-sf::Drawable& Background::getDrawable()
+void Background::draw(sf::RenderWindow& target)
 {
-    return m_background_rect;
+    target.draw(m_background_rect);
 }
 
 sf::Packet& Background::operator<<(sf::Packet& packet)

@@ -10,12 +10,19 @@ public:
 
     virtual sf::Vector2f getPos();
 
-    virtual sf::Drawable& getDrawable() = 0;
+    virtual void draw(sf::RenderWindow& target) = 0;
 
     virtual sf::Packet& operator<<(sf::Packet& packet) = 0;
     virtual void operator>>(sf::Packet& packet) = 0;
 
 protected:
     sf::Vector2f m_position;
+};
+
+class DynamicObject: public GameObject {
+public:
+    explicit DynamicObject(sf::Vector2f position);
+
+    virtual void update() = 0;
 };
 

@@ -7,7 +7,7 @@ class Background: public GameObject {
 public:
     Background(sf::Vector2f position, sf::Vector2u window_size, sf::Color color);
 
-    sf::Drawable& getDrawable() override;
+    void draw(sf::RenderWindow& target) override;
 
     sf::Packet& operator<<(sf::Packet& packet) override;
     void operator>>(sf::Packet& packet) override;

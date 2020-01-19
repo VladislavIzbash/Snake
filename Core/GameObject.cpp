@@ -6,5 +6,7 @@ GameObject::GameObject(sf::Vector2f position):
 
 sf::Vector2f GameObject::getPos()
 {
-    return sf::Vector2f();
+    return m_position;
 }
+
+DynamicObject::DynamicObject(sf::Vector2f position) : GameObject(position) {}
