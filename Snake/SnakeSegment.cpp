@@ -19,9 +19,10 @@ void SnakeSegment::draw(sf::RenderWindow& target)
 }
 
 sf::Packet& SnakeSegment::operator<<(sf::Packet& packet) { return packet; }
-
 void SnakeSegment::operator>>(sf::Packet& packet) {}
 
 void SnakeSegment::update() {}
 
+unsigned int SnakeSegment::getID() { return 0; }
+void SnakeSegment::setID(unsigned int id) {}
 

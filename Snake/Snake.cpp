@@ -4,10 +4,12 @@
 #include <SFML/Graphics.hpp>
 
 
-Snake::Snake(sf::Vector2f position, Snake::Direction direction, unsigned int initial_lenght, sf::Color snake_color)
+Snake::Snake(sf::Vector2f position, Snake::Direction direction, sf::Color snake_color)
 {
+    m_id = 0;
+
     sf::Vector2f local_pos(position);
-    for (unsigned int i = 0; i < initial_lenght; ++i) {
+    for (unsigned int i = 0; i < settings::INITIAL_SNAKE_LENGHT; ++i) {
         m_snake_body.emplace_back(local_pos, snake_color);
 
         switch (direction) {
@@ -36,3 +38,16 @@ void Snake::draw(sf::RenderWindow& target)
 sf::Packet& Snake::operator<<(sf::Packet& packet) { return packet; }
 
 void Snake::operator>>(sf::Packet& packet) {}
+
+void Snake::update() {}
+
+void Snake::setID(unsigned int id)
+{
+    m_id = id;
+}
+
+unsigned int Snake::getID()
+{
+    return m_id;
+}
+

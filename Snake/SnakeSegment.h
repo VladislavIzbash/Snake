@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/Object.h"
+#include "../Object.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -17,6 +17,9 @@ public:
 
     sf::Packet& operator<<(sf::Packet& packet) override;
     void operator>>(sf::Packet& packet) override;
+
+    unsigned int getID() override;
+    void setID(unsigned int id) override;
 
 private:
     std::unique_ptr<sf::Texture> m_segment_texture;

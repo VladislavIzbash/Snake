@@ -13,7 +13,8 @@ public:
 
 private:
     sf::TcpListener m_listener;
-    std::vector<sf::TcpSocket*> m_client_list;
+    std::vector<std::unique_ptr<sf::TcpSocket>> m_client_list;
 
     void acceptLoopThread();
+
 };

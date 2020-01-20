@@ -5,24 +5,24 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "-Wall")
 
 add_executable(Snake
-        Core/Main.cpp
-        Core/Network/Network.h
-        Core/Game.cpp
-        Core/Game.h
-        Core/Renderer.cpp
-        Core/Renderer.h
-        Core/Network/NetworkClient.cpp
-        Core/Network/NetworkClient.h
-        Core/Network/NetworkLocal.cpp
-        Core/Network/NetworkLocal.h
-        Core/Network/NetworkServer.cpp
-        Core/Network/NetworkServer.h
-        Core/Logger.cpp
-        Core/Logger.h
-        Core/Object.h
-        BaseObjects/SnakeSegment.cpp
-        BaseObjects/SnakeSegment.h
-        BaseObjects/Snake.cpp
-        BaseObjects/Snake.h
+        Main.cpp
+        Network/Network.h
+        Game.cpp
+        Game.h
+        Renderer.cpp
+        Renderer.h
+        Network/NetworkClient.cpp
+        Network/NetworkClient.h
+        Network/NetworkLocal.cpp
+        Network/NetworkLocal.h
+        Network/NetworkServer.cpp
+        Network/NetworkServer.h
+        Logger.cpp
+        Logger.h
+        Object.h
+        Snake/SnakeSegment.cpp
+        Snake/SnakeSegment.h
+        Snake/Snake.cpp
+        Snake/Snake.h
         Settings.h)
 target_link_libraries(Snake pthread sfml-graphics sfml-window sfml-system sfml-network)

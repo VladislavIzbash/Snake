@@ -2,11 +2,12 @@
 
 #include "Network.h"
 #include "../Logger.h"
-#include "../../Settings.h"
+#include "../Settings.h"
 
 #include <SFML/Network.hpp>
 
 #include <thread>
+#include <memory>
 
 void NetworkServer::setup(const sf::IpAddress &ip_address)
 {
@@ -21,22 +22,22 @@ void NetworkServer::setup(const sf::IpAddress &ip_address)
 void NetworkServer::acceptLoopThread()
 {
     while (true) {
-        sf::TcpSocket* client_socket = new sf::TcpSocket();
-        sf::Uint8 header;
+        std::unique_ptr<sf::TcpSocket> client_socket = std::make_unique<sf::TcpSocket>();
+        sf::Uint8 header = 0;
+        sf::Packet packet;
 
         if (m_listener.accept(*client_socket) != sf::Socket::Done) {
             Logger(Priority::Warning) << "Client accept failed" << std::endl;
             continue;
         }
 
-        sf::Packet packet;
         if (client_socket->receive(packet) != sf::Socket::Done) {
             Logger(Priority::Warning) << "Connection with client lost" << " (" << client_socket->getRemoteAddress() << ")" << std::endl;
             continue;
         }
 
         packet >> header;
-        if (static_cast<Request>(header) != Request::Join) {
+        if (header != static_cast<sf::Uint8>(Request::Join)) {
             Logger(Priority::Warning) << "Invalid join request" << " (" << client_socket->getRemoteAddress() << ")" << std::endl;
             continue;
         }

@@ -11,4 +11,5 @@ public:
 
 private:
     sf::TcpSocket m_socket;
+
 };

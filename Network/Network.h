@@ -17,11 +17,13 @@ enum class Response {
     JoinOk
 };
 
+/*
+ *  Интерфейс для сетевых классов. Обобщает функционал клиента, сервера и одиночной игры.
+ */
 class INetwork {
 public:
     virtual void setup(const sf::IpAddress& ip_address) = 0;
 
-    virtual void initObjectList(std::map<unsigned int, IObject>& object_list) = 0;
-
+    virtual void initObjectList(std::vector<std::unique_ptr<IObject>>& object_list) = 0;
 
 };

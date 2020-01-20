@@ -8,5 +8,5 @@ class NetworkLocal: public INetwork {
 public:
     void setup(const sf::IpAddress &ip_address) override;
 
-    void initObjectList(std::map<unsigned int, IObject>& object_list) override;
+    void initObjectList(std::vector<std::unique_ptr<IObject>>& object_list) override;
 };
