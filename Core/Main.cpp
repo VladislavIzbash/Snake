@@ -1,17 +1,14 @@
 #include "Network/Network.h"
 #include "Network/NetworkLocal.h"
 #include "Network/NetworkServer.h"
-#include "Network/NetworkClient.h"
 #include "Renderer.h"
 #include "Logger.h"
+#include "../Settings.h"
 
 #include <SFML/Graphics.hpp>
 
-#include <iostream>
 #include <string>
 
-
-static const int WINDOW_SIZE = 800;
 
 int main(int argc, char** argv)
 {
@@ -25,8 +22,8 @@ int main(int argc, char** argv)
             network->setup("");
 
         } else {
-            network = new NetworkClient();
-            network->setup(sf::IpAddress(argv[1]));
+            //network = new NetworkClient();
+            //network->setup(sf::IpAddress(argv[1]));
 
         }
     } catch (std::runtime_error& error) {
@@ -34,8 +31,9 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    sf::RenderWindow main_window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Snake alpha");
+    sf::RenderWindow main_window(sf::VideoMode(settings::WINDOW_SIZE, settings::WINDOW_SIZE), "Snake alpha");
     main_window.setVerticalSyncEnabled(true);
+
     Renderer renderer(main_window);
 
     while (main_window.isOpen()) {

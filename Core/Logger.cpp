@@ -3,9 +3,7 @@
 #include <iostream>
 
 
-Logger::Logger(Priority priority):
-    m_priority(priority)
-{}
+Logger::Logger(Priority priority): m_priority(priority) {}
 
 std::ostream& Logger::operator<<(const std::string& msg)
 {

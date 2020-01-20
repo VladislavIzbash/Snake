@@ -9,7 +9,7 @@ enum class Priority {
 
 class Logger {
 public:
-    Logger(Priority priority);
+    explicit Logger(Priority priority);
 
     std::ostream& operator<<(const std::string& msg);
 
