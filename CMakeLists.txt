@@ -19,10 +19,10 @@ add_executable(Snake
         Network/NetworkServer.h
         Logger.cpp
         Logger.h
-        Object.h
+        GameObject.h
         Snake/SnakeSegment.cpp
         Snake/SnakeSegment.h
         Snake/Snake.cpp
         Snake/Snake.h
-        Settings.h)
+        Settings.h GameObject.cpp)
 target_link_libraries(Snake pthread sfml-graphics sfml-window sfml-system sfml-network)

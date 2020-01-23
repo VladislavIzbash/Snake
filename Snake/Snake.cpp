@@ -4,26 +4,25 @@
 #include <SFML/Graphics.hpp>
 
 
-Snake::Snake(sf::Vector2f position, Snake::Direction direction, sf::Color snake_color)
+Snake::Snake(unsigned int id, GridPos grid_pos, Direction direction, sf::Color snake_color): GameObject(id, grid_pos)
 {
-    m_id = 0;
+    GridPos segment_pos(grid_pos);
 
-    sf::Vector2f local_pos(position);
     for (unsigned int i = 0; i < settings::INITIAL_SNAKE_LENGHT; ++i) {
-        m_snake_body.emplace_back(local_pos, snake_color);
+        m_snake_body.emplace_back(NULL, segment_pos, snake_color);
 
         switch (direction) {
             case Direction::RIGHT:
-                local_pos.x -= settings::CELL_SIZE;
+                --segment_pos.col;
                 break;
             case Direction::LEFT:
-                local_pos.x += settings::CELL_SIZE;
+                ++segment_pos.col;
                 break;
             case Direction::DOWN:
-                local_pos.y -= settings::CELL_SIZE;
+                --segment_pos.row;
                 break;
             case Direction::UP:
-                local_pos.y += settings::CELL_SIZE;
+                ++segment_pos.row;
                 break;
         }
     }
@@ -31,23 +30,37 @@ Snake::Snake(sf::Vector2f position, Snake::Direction direction, sf::Color snake_
 
 void Snake::draw(sf::RenderWindow& target)
 {
-    for (SnakeSegment& segm: m_snake_body)
+    for (SnakeSegment& segm: m_snake_body) {
         segm.draw(target);
+    }
 }
 
-sf::Packet& Snake::operator<<(sf::Packet& packet) { return packet; }
-
-void Snake::operator>>(sf::Packet& packet) {}
-
-void Snake::update() {}
-
-void Snake::setID(unsigned int id)
+sf::Packet& Snake::operator>>(sf::Packet& packet)
 {
-    m_id = id;
+    packet << static_cast<sf::Uint16>(m_snake_body.size());
+
+    for (SnakeSegment& segm: m_snake_body) {
+        segm >> packet;
+    }
+
+    return packet;
 }
 
-unsigned int Snake::getID()
+bool Snake::operator<<(sf::Packet& packet)
 {
-    return m_id;
+    unsigned short int size;
+    packet >> size;
+    m_snake_body.clear();
+
+    for (int i = 0; i < size; ++i) {
+        m_snake_body.emplace_back(0, GridPos(), sf::Color::Red);
+        m_snake_body.back() << packet;
+    }
+
+    return m_snake_body.size() == size;
 }
+
+ObjectType Snake::getType() const { return ObjectType::Snake; }
+
+
 

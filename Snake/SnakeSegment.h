@@ -1,25 +1,23 @@
 #pragma once
 
-#include "../Object.h"
+#include "../GameObject.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 #include <memory>
 
-class SnakeSegment: public IObject {
+class SnakeSegment: public GameObject {
 public:
-    explicit SnakeSegment(sf::Vector2f position, sf::Color snake_color);
+    SnakeSegment(unsigned int id, GridPos grid_pos, sf::Color snake_color);
 
     void draw(sf::RenderWindow& target) override;
 
-    void update() override;
+    sf::Packet& operator>>(sf::Packet& packet) override;
 
-    sf::Packet& operator<<(sf::Packet& packet) override;
-    void operator>>(sf::Packet& packet) override;
+    bool operator<<(sf::Packet& packet) override;
 
-    unsigned int getID() override;
-    void setID(unsigned int id) override;
+    ObjectType getType() const override;
 
 private:
     std::unique_ptr<sf::Texture> m_segment_texture;

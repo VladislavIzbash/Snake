@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/Graphics/Color.hpp>
 
 namespace settings {
     const unsigned short int WINDOW_SIZE = 800;

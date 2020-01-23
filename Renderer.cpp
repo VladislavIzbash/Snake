@@ -8,7 +8,7 @@ Renderer::Renderer(sf::RenderWindow &window, Game& game): m_window(window), m_ga
 void Renderer::drawAll() {
     m_window.clear(settings::BACKGROUND_COLOR);
 
-    for (std::unique_ptr<IObject>& obj: m_game.getObjects()) {
+    for (std::unique_ptr<GameObject>& obj: m_game.getObjects()) {
         obj->draw(m_window);
     }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Object.h"
+#include "../GameObject.h"
 
 #include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Network/TcpListener.hpp>
@@ -11,10 +11,10 @@
 
 
 enum class Request {
-    Join
+    Join, UpdateState
 };
 enum class Response {
-    JoinOk
+    JoinOk, UpdateOk
 };
 
 /*
@@ -24,6 +24,7 @@ class INetwork {
 public:
     virtual void setup(const sf::IpAddress& ip_address) = 0;
 
-    virtual void initObjectList(std::vector<std::unique_ptr<IObject>>& object_list) = 0;
+    virtual void initObjectList(std::vector<std::unique_ptr<GameObject>>& object_list) = 0;
 
+    virtual void update(std::vector<std::unique_ptr<GameObject>>& object_list) = 0;
 };

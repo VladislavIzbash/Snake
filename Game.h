@@ -1,31 +1,29 @@
 #pragma once
 
-#include "Network/Network.h"
-#include "Object.h"
+#include <SFML/System/Vector2.hpp>
 
 #include <vector>
 #include <memory>
+#include "GameObject.h"
+#include "Network/Network.h"
+
 
 /*
  *  Игровая логика. Выполняется на сервере и клиенте, но управляет игрой только сервер.
  */
 class Game {
 public:
-    struct GridPos {
-        unsigned short int col;
-        unsigned short int row;
-    };
-
     explicit Game(INetwork& network);
 
-    std::vector<std::unique_ptr<IObject>>& getObjects();
+    std::vector<std::unique_ptr<GameObject>>& getObjects();
 
     static GridPos mapToGrid(sf::Vector2f pos);
     static sf::Vector2f mapToWorld(GridPos grid_pos);
 
 private:
     INetwork& m_network;
-    std::vector<std::unique_ptr<IObject>> m_object_list;
+    std::vector<std::unique_ptr<GameObject>> m_object_list;
 
     void mainLoop();
+
 };

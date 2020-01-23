@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "Settings.h"
 #include "Game.h"
+#include "Network/NetworkClient.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -23,8 +24,8 @@ int main(int argc, char** argv)
             network->setup("");
 
         } else {
-            //network = new NetworkClient();
-            //network->setup(sf::IpAddress(argv[1]));
+            network = new NetworkClient();
+            network->setup(sf::IpAddress(argv[1]));
 
         }
     } catch (std::runtime_error& error) {

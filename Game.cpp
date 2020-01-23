@@ -14,23 +14,25 @@ Game::Game(INetwork &network): m_network(network)
 
 void Game::mainLoop()
 {
+    while (true) {
+        m_network.update(m_object_list);
 
-
-    std::this_thread::sleep_for(std::chrono::seconds(1 / settings::TICKS_PER_SECOND));
+        std::this_thread::sleep_for(std::chrono::seconds(1 / settings::TICKS_PER_SECOND));
+    }
 }
 
-Game::GridPos Game::mapToGrid(sf::Vector2f pos)
+GridPos Game::mapToGrid(sf::Vector2f pos)
 {
     GridPos grid_pos = {
-            (unsigned short int)(pos.x / settings::CELL_SIZE),
-            (unsigned short int)(pos.y / settings::CELL_SIZE)
+            (unsigned char)(pos.x / settings::CELL_SIZE),
+            (unsigned char)(pos.y / settings::CELL_SIZE)
     };
     return grid_pos;
 }
 
-sf::Vector2f Game::mapToWorld(Game::GridPos grid_pos)
+sf::Vector2f Game::mapToWorld(GridPos grid_pos)
 {
     return sf::Vector2f(grid_pos.col * settings::CELL_SIZE, grid_pos.row * settings::CELL_SIZE);
 }
 
-std::vector<std::unique_ptr<IObject>>& Game::getObjects() { return m_object_list; }
+std::vector<std::unique_ptr<GameObject>>& Game::getObjects() { return m_object_list; }
