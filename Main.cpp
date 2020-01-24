@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "Settings.h"
 #include "Game.h"
+#include "Resources.h"
 #include "Network/NetworkClient.h"
 
 #include <SFML/Graphics.hpp>
@@ -36,6 +37,7 @@ int main(int argc, char** argv)
     sf::RenderWindow main_window(sf::VideoMode(settings::WINDOW_SIZE, settings::WINDOW_SIZE), "Snake alpha");
     main_window.setVerticalSyncEnabled(true);
 
+    Resource::loadAll();
     Game game(*network);
     Renderer renderer(main_window, game);
 

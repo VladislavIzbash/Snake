@@ -7,6 +7,7 @@
 #include <vector>
 #include <memory>
 
+
 class NetworkServer: public NetworkLocal {
 public:
     void setup(const sf::IpAddress &ip_address) override;
@@ -14,12 +15,16 @@ public:
     void update(std::vector<std::unique_ptr<GameObject>>& object_list) override;
 
 private:
-    sf::TcpListener m_listener;
-    std::vector<std::unique_ptr<sf::TcpSocket>> m_client_list;
+    struct Client {
+        std::shared_ptr<sf::TcpSocket> socket;
+        unsigned int id;
+    };
 
-    void acceptLoopThread();
+    sf::TcpListener m_listener;
+    std::vector<Client> m_client_list;
+
+    void handleNewConnections(std::vector<std::unique_ptr<GameObject>>& object_list);
 
     static sf::Packet buildUpdatePacket(std::vector<std::unique_ptr<GameObject>>& object_list);
-
 
 };

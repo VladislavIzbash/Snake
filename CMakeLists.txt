@@ -24,5 +24,5 @@ add_executable(Snake
         Snake/SnakeSegment.h
         Snake/Snake.cpp
         Snake/Snake.h
-        Settings.h GameObject.cpp)
+        Settings.h GameObject.cpp Resources.cpp Resources.h)
 target_link_libraries(Snake pthread sfml-graphics sfml-window sfml-system sfml-network)

@@ -8,5 +8,5 @@ namespace settings {
     const sf::Color BACKGROUND_COLOR(0, 230, 0);
     const unsigned short int NETWORK_PORT = 23402;
     const unsigned short int INITIAL_SNAKE_LENGHT = 4;
-    const unsigned int TICKS_PER_SECOND = 10;
+    const unsigned int UPDATE_INTERVAL_MS = 100;
 }

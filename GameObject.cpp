@@ -21,7 +21,7 @@ std::unique_ptr<GameObject> createObject(ObjectType type, unsigned int id)
         case ObjectType::SnakeSegment:
             return std::make_unique<SnakeSegment>(id, GridPos(), sf::Color::Red);
         case ObjectType::Snake:
-            return std::make_unique<Snake>(id, GridPos(), Snake::Direction::RIGHT, sf::Color::Red);
+            return std::make_unique<Snake>(id, GridPos(), sf::Color::Red);
         default:
             throw std::runtime_error("Invalid type: " + std::to_string(static_cast<unsigned int>(type)));
     }

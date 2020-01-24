@@ -17,7 +17,7 @@ void Game::mainLoop()
     while (true) {
         m_network.update(m_object_list);
 
-        std::this_thread::sleep_for(std::chrono::seconds(1 / settings::TICKS_PER_SECOND));
+        std::this_thread::sleep_for(std::chrono::milliseconds(settings::UPDATE_INTERVAL_MS));
     }
 }
 
@@ -36,3 +36,13 @@ sf::Vector2f Game::mapToWorld(GridPos grid_pos)
 }
 
 std::vector<std::unique_ptr<GameObject>>& Game::getObjects() { return m_object_list; }
+
+sf::Color Game::pickNextColor()
+{
+    static unsigned int m_counter = 0;
+    const std::vector<sf::Color> color_pool {
+            sf::Color::Red, sf::Color::Blue, sf::Color::Magenta, sf::Color::Black, sf::Color::Black, sf::Color::Yellow
+    };
+
+    return color_pool.at( m_counter++ % color_pool.size());
+}

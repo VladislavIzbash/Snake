@@ -14,13 +14,12 @@ public:
     void draw(sf::RenderWindow& target) override;
 
     sf::Packet& operator>>(sf::Packet& packet) override;
-
     bool operator<<(sf::Packet& packet) override;
 
     ObjectType getType() const override;
 
+    void setColor(sf::Color color);
 private:
-    std::unique_ptr<sf::Texture> m_segment_texture;
-    sf::Sprite m_segment_sprite;
+    std::unique_ptr<sf::Sprite> m_segment_sprite;
 
 };

@@ -12,17 +12,18 @@ public:
         RIGHT, LEFT, DOWN, UP
     };
 
-    Snake(unsigned int id, GridPos grid_pos, Direction direction, sf::Color snake_color);
+    Snake(unsigned int id, GridPos grid_pos, sf::Color snake_color);
 
     void draw(sf::RenderWindow& target) override;
 
     sf::Packet& operator>>(sf::Packet& packet) override;
-
     bool operator<<(sf::Packet& packet) override;
 
     ObjectType getType() const override;
 
 private:
     std::vector<SnakeSegment> m_snake_body;
+    Direction m_current_direction;
+    sf::Color m_snake_color;
 
 };
