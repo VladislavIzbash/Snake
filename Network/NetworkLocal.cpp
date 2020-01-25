@@ -26,7 +26,7 @@ void NetworkLocal::addNewPlayer(std::vector<std::unique_ptr<GameObject>>& object
                                               settings::INITIAL_SNAKE_LENGHT)
     };
 
-    object_list.push_back(std::make_unique<Snake>(id, random_pos, Game::pickNextColor()));
+    object_list.push_back(std::make_unique<Snake>(id, random_pos, static_cast<Snake::Direction>(rand() % 4), Game::pickNextColor()));
 
     Logger(Priority::Info) << "Created Snake " << id << " at " << (int)random_pos.col << "," << (int)random_pos.row << std::endl;
 }
@@ -46,7 +46,15 @@ void NetworkLocal::removePlayer(std::vector<std::unique_ptr<GameObject>>& object
 
 void NetworkLocal::update(std::vector<std::unique_ptr<GameObject>>& object_list) {}
 
-unsigned int NetworkLocal::getMyId() { return 0; }
+GameObject& NetworkLocal::getMyPlayer(std::vector<std::unique_ptr<GameObject>>& object_list)
+{
+    for (auto& obj: object_list) {
+        if (obj->getID() == 0) return *obj;
+    }
+
+    throw std::runtime_error("My player is missing!");
+}
+
 
 
 

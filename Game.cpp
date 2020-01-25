@@ -2,6 +2,7 @@
 #include "Settings.h"
 
 #include <thread>
+#include <SFML/Window/Event.hpp>
 
 
 Game::Game(INetwork &network): m_network(network)
@@ -15,6 +16,10 @@ Game::Game(INetwork &network): m_network(network)
 void Game::mainLoop()
 {
     while (true) {
+        for (auto& obj: m_object_list) {
+            obj->update();
+        }
+
         m_network.update(m_object_list);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(settings::UPDATE_INTERVAL_MS));
@@ -45,4 +50,9 @@ sf::Color Game::pickNextColor()
     };
 
     return color_pool.at( m_counter++ % color_pool.size());
+}
+
+void Game::turnLocalPlayer(Snake::Direction dir)
+{
+    dynamic_cast<Snake&>(m_network.getMyPlayer(m_object_list)).turn(dir);
 }

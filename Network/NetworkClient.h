@@ -13,11 +13,11 @@ public:
 
     void update(std::vector<std::unique_ptr<GameObject>>& object_list) override;
 
-    unsigned int getMyId() override;
-
 private:
     sf::TcpSocket m_socket;
     unsigned int m_my_id;
+
+    GameObject& getMyPlayer(std::vector<std::unique_ptr<GameObject>>& object_list) override;
 
     static void syncObjectList(std::vector<std::unique_ptr<GameObject>>& object_list, sf::Packet& packet);
 

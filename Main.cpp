@@ -7,10 +7,13 @@
 #include "Game.h"
 #include "Resources.h"
 #include "Network/NetworkClient.h"
+#include "Snake/Snake.h"
 
 #include <SFML/Graphics.hpp>
 
 #include <string>
+
+
 
 
 int main(int argc, char** argv)
@@ -44,8 +47,17 @@ int main(int argc, char** argv)
     while (main_window.isOpen()) {
         sf::Event event{};
         while (main_window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                main_window.close();
+            switch (event.type) {
+                case sf::Event::Closed:
+                    main_window.close();
+                    break;
+
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::W) game.turnLocalPlayer(Snake::Direction::UP);
+                    if (event.key.code == sf::Keyboard::A) game.turnLocalPlayer(Snake::Direction::LEFT);
+                    if (event.key.code == sf::Keyboard::S) game.turnLocalPlayer(Snake::Direction::DOWN);
+                    if (event.key.code == sf::Keyboard::D) game.turnLocalPlayer(Snake::Direction::RIGHT);
+            }
         }
 
         renderer.drawAll();

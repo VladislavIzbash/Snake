@@ -19,6 +19,8 @@ public:
     ObjectType getType() const override;
 
     void setColor(sf::Color color);
+
+    GridPos getPos();
 private:
     std::unique_ptr<sf::Sprite> m_segment_sprite;
 

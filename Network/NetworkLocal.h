@@ -10,9 +10,9 @@ public:
 
     void initObjectList(std::vector<std::unique_ptr<GameObject>>& object_list) override;
 
-    unsigned int getMyId() override;
-
     void update(std::vector<std::unique_ptr<GameObject>>& object_list) override;
+
+    GameObject& getMyPlayer(std::vector<std::unique_ptr<GameObject>>& object_list) override;
 
 protected:
     static void addNewPlayer(std::vector<std::unique_ptr<GameObject>>& object_list, unsigned int id);

@@ -6,6 +6,7 @@
 #include <memory>
 #include "GameObject.h"
 #include "Network/Network.h"
+#include "Snake/Snake.h"
 
 
 /*
@@ -21,6 +22,8 @@ public:
     static sf::Vector2f mapToWorld(GridPos grid_pos);
 
     static sf::Color pickNextColor();
+
+    void turnLocalPlayer(Snake::Direction dir);
 
 private:
     INetwork& m_network;

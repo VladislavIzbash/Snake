@@ -27,4 +27,6 @@ private:
 
     static sf::Packet buildUpdatePacket(std::vector<std::unique_ptr<GameObject>>& object_list);
 
+    static void updatePlayerObject(std::vector<std::unique_ptr<GameObject>>& object_list, unsigned int id, sf::Packet& packet);
+
 };

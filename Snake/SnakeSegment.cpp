@@ -5,6 +5,7 @@
 #include "../Settings.h"
 #include "../Resources.h"
 
+#include <iostream>
 
 SnakeSegment::SnakeSegment(unsigned int id, GridPos grid_pos, sf::Color snake_color): GameObject(id, grid_pos)
 {
@@ -30,7 +31,9 @@ bool SnakeSegment::operator<<(sf::Packet& packet)
 {
     GridPos pos = {0, 0};
     if (packet >> pos.col >> pos.row) {
+        //std::cout << "(" << (int)pos.col << "," << (int)pos.row << ") ";
         m_segment_sprite->setPosition(Game::mapToWorld(pos));
+        m_grid_pos = pos;
         return true;
     }
     return false;
@@ -42,4 +45,6 @@ void SnakeSegment::setColor(sf::Color color)
 {
     m_segment_sprite->setColor(color);
 }
+
+GridPos SnakeSegment::getPos() { return m_grid_pos; }
 

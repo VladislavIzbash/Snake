@@ -7,7 +7,6 @@
 
 #include <SFML/Network.hpp>
 
-#include <thread>
 #include <memory>
 #include <cstdlib>
 
@@ -37,7 +36,8 @@ void NetworkServer::handleNewConnections(std::vector<std::unique_ptr<GameObject>
         } else if (packet >> header && header != static_cast<sf::Uint8>(Request::Join)) {
             Logger(Priority::Warning) << "Invalid join request" << " (" << client.socket->getRemoteAddress() << ")" << std::endl;
         } else {
-            packet << static_cast<sf::Uint8>(Response::JoinOk) << client.id;
+            packet.clear();
+            packet << static_cast<sf::Uint8>(Response::JoinOk) << static_cast<sf::Uint32>(client.id);
             client.socket->send(packet);
 
             Logger(Priority::Info) << "Player " << client.id << " accepted" << std::endl;
@@ -72,17 +72,26 @@ void NetworkServer::update(std::vector<std::unique_ptr<GameObject>>& object_list
 
         if (it->socket->receive(packet) == sf::Socket::Done) {
             if (packet >> header && header == static_cast<sf::Uint8>(Request::UpdateState)) {
+                if (!packet.endOfPacket()) updatePlayerObject(object_list, it->id, packet);
+
                 sf::Packet resp = buildUpdatePacket(object_list);
                 it->socket->send(resp);
             }
 
             ++it;
         } else {
-            m_client_list.erase(it);
-
             Logger(Priority::Info) << "Player " << it->id << " disconnected" << std::endl;
 
             removePlayer(object_list, it->id);
+
+            m_client_list.erase(it);
         }
+    }
+}
+
+void NetworkServer::updatePlayerObject(std::vector<std::unique_ptr<GameObject>>& object_list, unsigned int id, sf::Packet& packet)
+{
+    for (auto& obj: object_list) {
+        if (obj->getID() == id) *obj << packet;
     }
 }

@@ -26,7 +26,7 @@ public:
 
     virtual void initObjectList(std::vector<std::unique_ptr<GameObject>>& object_list) = 0;
 
-    virtual unsigned int getMyId() = 0;
+    virtual GameObject& getMyPlayer(std::vector<std::unique_ptr<GameObject>>& object_list) = 0;
 
     virtual void update(std::vector<std::unique_ptr<GameObject>>& object_list) = 0;
 };

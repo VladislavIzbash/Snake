@@ -47,6 +47,7 @@ void NetworkClient::syncObjectList(std::vector<std::unique_ptr<GameObject>>& obj
     unsigned int i;
 
     for (i = 0; packet >> id >> type; i++) {
+        //std::cout << id << ": ";
         if (i < object_list.size()) {
             if (object_list.at(i)->getID() == id) {
                 *object_list.at(i) << packet;
@@ -63,6 +64,7 @@ void NetworkClient::syncObjectList(std::vector<std::unique_ptr<GameObject>>& obj
     if (object_list.size() > i) {
         object_list.erase(object_list.begin() + i, object_list.end());
     }
+    //std::cout << "=================================" << std::endl;
 }
 
 void NetworkClient::update(std::vector<std::unique_ptr<GameObject>>& object_list)
@@ -71,6 +73,15 @@ void NetworkClient::update(std::vector<std::unique_ptr<GameObject>>& object_list
     sf::Uint8 header = 0;
 
     packet << static_cast<sf::Uint8>(Request::UpdateState);
+    try {
+        getMyPlayer(object_list) >> packet;
+    } catch (std::runtime_error& error) {
+        Logger(Priority::Warning) << error.what() << " (probably first update)" << std::endl;
+        packet.clear();
+        packet << static_cast<sf::Uint8>(Request::UpdateState);
+
+    }
+
     m_socket.send(packet);
 
     m_socket.receive(packet);
@@ -81,4 +92,11 @@ void NetworkClient::update(std::vector<std::unique_ptr<GameObject>>& object_list
     }
 }
 
-unsigned int NetworkClient::getMyId() { return m_my_id; }
+
+GameObject& NetworkClient::getMyPlayer(std::vector<std::unique_ptr<GameObject>>& object_list)
+{
+    for (auto& obj: object_list) {
+        if (obj->getID() == m_my_id) return *obj;
+    }
+    throw std::runtime_error("My player is missing!");
+}
