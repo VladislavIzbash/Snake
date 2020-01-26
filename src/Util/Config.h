@@ -2,7 +2,8 @@
 
 #include <SFML/Graphics/Color.hpp>
 
-namespace settings {
+
+namespace cfg {
     const unsigned short int WINDOW_SIZE = 800;
     const unsigned short int CELL_SIZE = 25;
     const sf::Color BACKGROUND_COLOR(0, 230, 0);
