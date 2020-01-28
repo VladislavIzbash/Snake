@@ -2,6 +2,7 @@
 
 #include "Util.h"
 #include "Entity/Snake.h"
+#include "Entity/Fruit.h"
 
 
 World::World(bool is_remote): m_isRemote(is_remote) {}
@@ -51,12 +52,7 @@ std::vector<std::unique_ptr<Entity>>& World::getAllEntities() { return m_entityL
 
 bool World::trySpawnSnake(unsigned int id)
 {
-    unsigned short int map_size = util::cfg::WINDOW_SIZE / util::cfg::CELL_SIZE;
-
-    util::GridPos random_pos(
-            rand() % (map_size - util::cfg::INITIAL_SNAKE_LENGHT) + util::cfg::INITIAL_SNAKE_LENGHT,
-            rand() % (map_size - util::cfg::INITIAL_SNAKE_LENGHT) + util::cfg::INITIAL_SNAKE_LENGHT
-    );
+    util::GridPos random_pos = util::getRandomPos();
 
     for (auto& entity: m_entityList) {
         if (entity->isCellNearby(random_pos, util::cfg::INITIAL_SNAKE_LENGHT)) return false;
@@ -93,6 +89,33 @@ void World::removeEntityById(unsigned int id)
 
     if (!found) throw std::runtime_error("Cannot remove: Entity " + std::to_string(id) + " is missing");
     else util::Logger(util::Priority::Info) << "Removed entity " << id << std::endl;
+}
+
+void World::spawnFruit()
+{
+    util::GridPos random_pos;
+
+    bool ocuppied;
+    do {
+        random_pos = util::getRandomPos();
+
+        ocuppied = false;
+        for (auto& entity: m_entityList) {
+            if (entity->isCellNearby(random_pos, 1)) ocuppied = true;
+        }
+    } while (ocuppied);
+
+    m_entityList.push_back(std::make_unique<Fruit>(this, static_cast<unsigned int>(rand()) + 1, random_pos));
+}
+
+Entity* World::getEntityAtPos(util::GridPos pos)
+{
+    for (auto& entity: m_entityList) {
+        if (entity->isCellNearby(pos, 0))
+            return &(*entity);
+    }
+
+    return nullptr;
 }
 
 

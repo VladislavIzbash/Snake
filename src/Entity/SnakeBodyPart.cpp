@@ -17,7 +17,7 @@ void SnakeBodyPart::toPacket(sf::Packet& packet)
 {
     util::GridPos pos(m_sprite.getPosition());
 
-    packet << (sf::Uint8)pos.col << (sf::Uint8)pos.row;
+    packet << pos.col << pos.row;
 }
 
 void SnakeBodyPart::fromPacket(sf::Packet& packet)

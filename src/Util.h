@@ -18,8 +18,8 @@ namespace util {
         const unsigned short int NETWORK_PORT = 23402;
         const unsigned short int INITIAL_SNAKE_LENGHT = 7;
         const unsigned int SPAWN_ATTEMPTS = 5;
-        const unsigned int UPDATE_INTERVAL_MS = 100;
-        const unsigned int FRUIT_INTERVAL_MS = 500;
+        const unsigned int UPDATE_INTERVAL_MS = 1000;
+        const unsigned int FRUIT_INTERVAL_MS = 2000;
     }
 
     namespace res {
@@ -41,6 +41,8 @@ namespace util {
         sf::Vector2f mapToWorld();
 
     };
+
+    GridPos getRandomPos();
 
     enum class Direction {
         Right, Left, Up, Down

@@ -24,5 +24,5 @@ add_executable(snake
         src/Game/Server.cpp
         src/Game/Server.h
         src/Game/Client.cpp
-        src/Game/Client.h)
+        src/Game/Client.h src/Entity/Fruit.cpp src/Entity/Fruit.h)
 target_link_libraries(snake pthread sfml-graphics sfml-window sfml-system sfml-network)

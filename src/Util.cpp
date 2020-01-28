@@ -6,6 +6,7 @@
 
 
 static sf::Texture* g_snakePartTexture = nullptr;
+static sf::Texture* g_fruitTexture = nullptr;
 
 void util::res::loadAll()
 {
@@ -14,6 +15,10 @@ void util::res::loadAll()
 
     g_snakePartTexture = new sf::Texture();
     g_snakePartTexture->loadFromImage(img);
+
+    img.create(cfg::CELL_SIZE, cfg::CELL_SIZE, sf::Color::Magenta);
+    g_fruitTexture = new sf::Texture();
+    g_fruitTexture->loadFromImage(img);
 }
 
 sf::Texture* util::res::getTexture(EntityType type)
@@ -21,6 +26,8 @@ sf::Texture* util::res::getTexture(EntityType type)
     switch (type) {
         case EntityType::SnakeBodyPart:
             return g_snakePartTexture;
+        case EntityType::Fruit:
+            return g_fruitTexture;
         default:
             throw std::runtime_error("No texture for that entity");
     }
@@ -39,6 +46,13 @@ util::GridPos::GridPos(sf::Vector2f vector):
 sf::Vector2f util::GridPos::mapToWorld()
 {
     return sf::Vector2f(col * cfg::CELL_SIZE, row * cfg::CELL_SIZE);
+}
+
+util::GridPos util::getRandomPos()
+{
+    sf::Uint8 map_size = cfg::WINDOW_SIZE / cfg::CELL_SIZE;
+
+    return GridPos(rand() % map_size, rand() % map_size);
 }
 
 
@@ -72,6 +86,8 @@ sf::Color util::pickNextColor()
 
     return color_pool.at( m_counter++ % color_pool.size());
 }
+
+
 
 
 

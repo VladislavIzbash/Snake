@@ -1,6 +1,7 @@
 #include "Entity.h"
 
 #include "Snake.h"
+#include "Fruit.h"
 #include "../Util.h"
 
 #include <stdexcept>
@@ -21,6 +22,13 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
 bool Entity::isCellNearby(util::GridPos cell_pos, unsigned int range) const { return false; }
 
+bool Entity::isDead() { return m_isDead; }
+
+void Entity::setDead()
+{
+    m_isDead = true;
+}
+
 
 std::unique_ptr<Entity> createEntity(World* world_in, EntityType type, unsigned int id)
 {
@@ -29,6 +37,8 @@ std::unique_ptr<Entity> createEntity(World* world_in, EntityType type, unsigned 
             return std::make_unique<SnakeBodyPart>(world_in, id, util::GridPos());
         case EntityType::Snake:
             return std::make_unique<Snake>(world_in, id, util::GridPos());
+        case EntityType::Fruit:
+            return std::make_unique<Fruit>(world_in, id, util::GridPos());
         default:
             throw std::runtime_error("Invalid entity type");
     }

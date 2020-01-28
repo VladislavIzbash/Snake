@@ -16,4 +16,7 @@ public:
 protected:
     World m_world;
 
+private:
+    void collectGarbage();
+
 };

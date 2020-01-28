@@ -37,7 +37,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    sf::RenderWindow main_window(sf::VideoMode(util::cfg::WINDOW_SIZE, util::cfg::WINDOW_SIZE), "Snake alpha");
+    sf::RenderWindow main_window(sf::VideoMode(util::cfg::WINDOW_SIZE, util::cfg::WINDOW_SIZE), "Snake beta");
     main_window.setVerticalSyncEnabled(true);
 
     std::thread update_thread(updateThread, game);

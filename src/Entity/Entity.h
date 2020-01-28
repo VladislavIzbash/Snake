@@ -10,7 +10,7 @@
 
 
 enum class EntityType {
-    None, SnakeBodyPart, Snake
+    None, SnakeBodyPart, Snake, Fruit
 };
 
 class Entity: public sf::Drawable {
@@ -27,9 +27,13 @@ public:
 
     virtual bool isCellNearby(util::GridPos cell_pos, unsigned int range) const;
 
+    virtual bool isDead();
+    virtual void setDead();
+
 protected:
     World* m_worldIn;
     unsigned int m_id;
+    bool m_isDead = false;
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

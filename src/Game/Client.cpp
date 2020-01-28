@@ -47,6 +47,8 @@ void Client::update()
     if (m_socket.receive(packet) == sf::Socket::Done && packet >> header && header == (sf::Uint8)Response::UpdateOk) {
         m_world.fromPacket(packet);
     }
+
+
 }
 
 Snake& Client::getLocalPlayer()

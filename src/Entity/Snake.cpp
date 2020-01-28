@@ -3,6 +3,8 @@
 #include "../Util.h"
 #include "../Game/Game.h"
 
+#include <iostream>
+
 
 Snake::Snake(World* world_in, unsigned int id, util::GridPos head_pos, util::Direction dir, sf::Color snake_color):
     Entity(world_in, id), m_headPos(head_pos), m_direction(dir), m_color(snake_color)
@@ -49,16 +51,25 @@ void Snake::update()
             break;
     }
 
+    Entity* ent = m_worldIn->getEntityAtPos(m_headPos);
+
     util::renderLock.lock();
+
     m_bodyVector.emplace(m_bodyVector.begin(), m_worldIn, 0, m_headPos, m_color);
-    m_bodyVector.erase(m_bodyVector.end());
+
+    if (ent != nullptr && ent->getType() == EntityType::Fruit)
+    {
+        ent->setDead();
+    } else {
+        m_bodyVector.erase(m_bodyVector.end());
+    }
+
     util::renderLock.unlock();
 }
 
 void Snake::toPacket(sf::Packet& packet)
 {
-    packet << (sf::Uint16)m_bodyVector.size() << (sf::Uint8)m_direction;
-    packet << (sf::Uint8)m_color.r << (sf::Uint8)m_color.g << (sf::Uint8)m_color.b;
+    packet << (sf::Uint16)m_bodyVector.size() << (sf::Uint8)m_direction << m_color.toInteger();
 
     for (auto& part: m_bodyVector) {
         part.toPacket(packet);
@@ -69,11 +80,12 @@ void Snake::fromPacket(sf::Packet& packet)
 {
     sf::Uint16 new_size;
     sf::Uint8 dir;
+    sf::Uint32 color;
 
-    packet >> new_size >> dir;
-    packet >> m_color.r >> m_color.g >> m_color.b;
+    packet >> new_size >> dir >> color;
 
     util::renderLock.lock();
+    m_color = sf::Color(color);
     m_bodyVector.resize(new_size, SnakeBodyPart(m_worldIn, 0, util::GridPos(), m_color));
     util::renderLock.unlock();
 

@@ -23,6 +23,10 @@ public:
 
     bool trySpawnSnake(unsigned int id);
 
+    void spawnFruit();
+
+    Entity* getEntityAtPos(util::GridPos pos);
+
 private:
     const bool m_isRemote;
     std::vector<std::unique_ptr<Entity>> m_entityList;

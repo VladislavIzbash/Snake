@@ -16,8 +16,6 @@ Server::Server(): Singleplayer()
 
 void Server::update()
 {
-    Singleplayer::update();
-
     handleNewConnections();
 
     for (auto client_it = m_clientList.begin(); client_it != m_clientList.end();) {
@@ -31,6 +29,8 @@ void Server::update()
             client_it++;
         }
     }
+
+    Singleplayer::update();
 }
 
 void Server::handleNewConnections()
