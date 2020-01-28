@@ -6,16 +6,11 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 
 #include <vector>
-#include <mutex>
 
-
-enum class Direction {
-    RIGHT, LEFT, DOWN, UP
-};
 
 class Snake: public Entity {
 public:
-    Snake(unsigned int id, GridPos head_pos, Direction dir = Direction::RIGHT, sf::Color snake_color = sf::Color::White);
+    Snake(World* world_in, unsigned int id, util::GridPos head_pos, util::Direction dir = util::Direction::Right, sf::Color snake_color = sf::Color::White);
 
     void update() override;
 
@@ -24,14 +19,14 @@ public:
 
     EntityType getType() const override;
 
-    bool isCellNearby(GridPos cell_pos, unsigned int range) const override;
+    bool isCellNearby(util::GridPos cell_pos, unsigned int range) const override;
 
-    void turn(Direction dir);
+    void turn(util::Direction dir);
 
 private:
     std::vector<SnakeBodyPart> m_bodyVector;
-    GridPos m_headPos;
-    Direction m_direction;
+    util::GridPos m_headPos;
+    util::Direction m_direction;
     sf::Color m_color;
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Util/Grid.h"
+#include "../Util.h"
+#include "../World.h"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Network/Packet.hpp>
 
 #include <memory>
-#include <mutex>
 
 
 enum class EntityType {
@@ -15,7 +15,7 @@ enum class EntityType {
 
 class Entity: public sf::Drawable {
 public:
-    explicit Entity(unsigned int id);
+    Entity(World* world_in, unsigned int id);
 
     virtual void update();
 
@@ -25,9 +25,10 @@ public:
     virtual EntityType getType() const;
     virtual unsigned int getID() const;
 
-    virtual bool isCellNearby(GridPos cell_pos, unsigned int range) const;
+    virtual bool isCellNearby(util::GridPos cell_pos, unsigned int range) const;
 
 protected:
+    World* m_worldIn;
     unsigned int m_id;
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -35,4 +36,4 @@ protected:
 };
 
 
-std::unique_ptr<Entity> createEntity(EntityType type, unsigned int id);
+std::unique_ptr<Entity> createEntity(World* world_in, EntityType type, unsigned int id);
