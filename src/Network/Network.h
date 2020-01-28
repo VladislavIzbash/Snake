@@ -7,7 +7,7 @@ enum class Request {
     Join, UpdateState
 };
 enum class Response {
-    JoinOk, UpdateOk
+    JoinOk, JoinFailure, UpdateOk
 };
 
 class INetwork {

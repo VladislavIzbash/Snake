@@ -17,6 +17,8 @@ unsigned int Entity::getID() const { return m_id; }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
+bool Entity::isCellNearby(GridPos cell_pos, unsigned int range) const { return false; }
+
 
 std::unique_ptr<Entity> createEntity(EntityType type, unsigned int id)
 {

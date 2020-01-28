@@ -60,13 +60,19 @@ void NetworkServer::handleNewConnections(std::vector<std::unique_ptr<Entity>>& o
             Logger(Priority::Warning) << "Invalid join request" << " (" << client.id << ")" << std::endl;
         } else {
             packet.clear();
-            packet << (sf::Uint8)Response::JoinOk << (sf::Uint32)client.id;
-            client.socket->send(packet);
 
-            Logger(Priority::Info) << "Player " << client.id << " accepted" << std::endl;
-            m_client_list.push_back(client);
+            if (spawnPlayer(object_list, client.id)) {
+                packet << (sf::Uint8) Response::JoinOk << (sf::Uint32) client.id;
+                client.socket->send(packet);
 
-            addNewPlayer(object_list, client.id);
+                Logger(Priority::Info) << "Player " << client.id << " accepted" << std::endl;
+                m_client_list.push_back(client);
+            } else {
+                packet << (sf::Uint8) Response::JoinFailure;
+                client.socket->send(packet);
+
+                Logger(Priority::Info) << "Player " << client.id << " is not accepted (board is full)" << std::endl;
+            }
         }
     }
 }

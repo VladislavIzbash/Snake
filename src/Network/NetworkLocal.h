@@ -14,7 +14,10 @@ public:
     Entity& getMyPlayer(const std::vector<std::unique_ptr<Entity>>& entity_list) override;
 
 protected:
-    static void addNewPlayer(std::vector<std::unique_ptr<Entity>>& entity_list, unsigned int id);
+    static bool spawnPlayer(std::vector<std::unique_ptr<Entity>>& entity_list, unsigned int id);
     static void removePlayer(std::vector<std::unique_ptr<Entity>>& entity_list, unsigned int id);
+
+private:
+    static bool tryRandomPosition(std::vector<std::unique_ptr<Entity>>& entity_list);
 
 };

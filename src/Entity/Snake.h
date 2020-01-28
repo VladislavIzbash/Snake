@@ -3,8 +3,10 @@
 #include "Entity.h"
 #include "SnakeBodyPart.h"
 
-#include <vector>
 #include <SFML/Graphics/RenderTexture.hpp>
+
+#include <vector>
+#include <mutex>
 
 
 enum class Direction {
@@ -21,6 +23,8 @@ public:
     void fromPacket(sf::Packet& packet) override;
 
     EntityType getType() const override;
+
+    bool isCellNearby(GridPos cell_pos, unsigned int range) const override;
 
     void turn(Direction dir);
 

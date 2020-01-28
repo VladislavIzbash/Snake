@@ -15,5 +15,6 @@ struct GridPos {
 GridPos operator +(GridPos& a, GridPos& b);
 GridPos operator -(GridPos& a, GridPos& b);
 
+
 GridPos mapToGrid(sf::Vector2f pos);
 sf::Vector2f mapToWorld(GridPos grid_pos);

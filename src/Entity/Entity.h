@@ -1,9 +1,12 @@
 #pragma once
 
+#include "../Util/Grid.h"
+
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Network/Packet.hpp>
 
 #include <memory>
+#include <mutex>
 
 
 enum class EntityType {
@@ -21,6 +24,8 @@ public:
 
     virtual EntityType getType() const;
     virtual unsigned int getID() const;
+
+    virtual bool isCellNearby(GridPos cell_pos, unsigned int range) const;
 
 protected:
     unsigned int m_id;

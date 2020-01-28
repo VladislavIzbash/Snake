@@ -12,7 +12,7 @@
 
 void NetworkLocal::initEntityList(std::vector<std::unique_ptr<Entity>>& entity_list)
 {
-    addNewPlayer(entity_list, 0);
+    spawnPlayer(entity_list, 0);
 }
 
 void NetworkLocal::updateEntityList(std::vector<std::unique_ptr<Entity>>& entity_list) {}
@@ -27,18 +27,32 @@ Entity& NetworkLocal::getMyPlayer(const std::vector<std::unique_ptr<Entity>>& en
 }
 
 
-void NetworkLocal::addNewPlayer(std::vector<std::unique_ptr<Entity>>& entity_list, unsigned int id)
+bool NetworkLocal::spawnPlayer(std::vector<std::unique_ptr<Entity>>& entity_list, unsigned int id)
 {
     unsigned short int map_size = cfg::WINDOW_SIZE / cfg::CELL_SIZE;
 
-    GridPos random_pos = {
-            static_cast<unsigned char>(rand() % (map_size - cfg::INITIAL_SNAKE_LENGHT) + cfg::INITIAL_SNAKE_LENGHT),
-            static_cast<unsigned char>(rand() % (map_size - cfg::INITIAL_SNAKE_LENGHT) + cfg::INITIAL_SNAKE_LENGHT)
-    };
+    for (unsigned int i = 0; i < cfg::SPAWN_ATTEMPTS; i++) {
+        GridPos random_pos = {
+                static_cast<unsigned char>(rand() % (map_size - cfg::INITIAL_SNAKE_LENGHT) + cfg::INITIAL_SNAKE_LENGHT),
+                static_cast<unsigned char>(rand() % (map_size - cfg::INITIAL_SNAKE_LENGHT) + cfg::INITIAL_SNAKE_LENGHT)
+        };
+        Logger(Priority::Info) << "random: " << (int)random_pos.col << std::endl;
 
-    entity_list.push_back(std::make_unique<Snake>(id, random_pos, static_cast<Direction>(rand() % 4), Game::pickNextColor()));
+        bool is_nearby = false;
+        for (auto& entity: entity_list) {
+            if (entity->isCellNearby(random_pos, cfg::INITIAL_SNAKE_LENGHT)) is_nearby = true;
+        }
 
-    Logger(Priority::Info) << "Created snake " << id << " at " << (int)random_pos.col << "," << (int)random_pos.row << std::endl;
+        if (!is_nearby) {
+            entity_list.push_back(
+                    std::make_unique<Snake>(id, random_pos, static_cast<Direction>(rand() % 4), Game::pickNextColor()));
+
+            Logger(Priority::Info) << "Created snake " << id << " at " << (int) random_pos.col << "," << (int) random_pos.row << std::endl;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void NetworkLocal::removePlayer(std::vector<std::unique_ptr<Entity>>& object_list, unsigned int id)

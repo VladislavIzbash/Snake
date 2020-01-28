@@ -19,6 +19,8 @@ public:
     void setColor(sf::Color color);
     GridPos getPos() const;
 
+    bool isCellNearby(GridPos cell_pos, unsigned int range) const override;
+
 private:
     sf::Sprite m_sprite;
 

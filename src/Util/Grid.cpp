@@ -9,7 +9,6 @@ GridPos operator+(GridPos& a, GridPos& b)
 {
     return {static_cast<unsigned char>(a.col + b.col), static_cast<unsigned char>(a.row + b.row)};
 }
-
 GridPos operator-(GridPos& a, GridPos& b)
 {
     return {static_cast<unsigned char>(a.col - b.col), static_cast<unsigned char>(a.row - b.row)};
@@ -25,6 +24,7 @@ sf::Vector2f mapToWorld(GridPos grid_pos)
 {
     return sf::Vector2f(grid_pos.col * cfg::CELL_SIZE, grid_pos.row * cfg::CELL_SIZE);
 }
+
 
 void GridPos::move(Direction dir, int range)
 {
@@ -49,3 +49,5 @@ void GridPos::move(Direction dir, int range)
             break;
     }
 }
+
+

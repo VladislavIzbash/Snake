@@ -4,6 +4,8 @@
 #include <thread>
 
 
+std::mutex g_updateLock;
+
 Game::Game(INetwork &network): m_network(network)
 {
     m_network.initEntityList(m_entityList);
@@ -16,18 +18,19 @@ void Game::mainLoop()
 {
     while (true) {
 
-
-        m_network.updateEntityList(m_entityList);
-
         for (auto& entity: m_entityList) {
             entity->update();
         }
+
+        m_network.updateEntityList(m_entityList);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(cfg::UPDATE_INTERVAL_MS));
     }
 }
 
-std::vector<std::unique_ptr<Entity>>& Game::getEntities() { return m_entityList; }
+std::vector<std::unique_ptr<Entity>>& Game::getEntities() {
+    return m_entityList;
+}
 
 
 void Game::turnLocalPlayer(Direction dir)

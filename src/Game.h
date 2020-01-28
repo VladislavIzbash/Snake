@@ -8,7 +8,10 @@
 
 #include <vector>
 #include <memory>
+#include <mutex>
 
+
+extern std::mutex g_updateLock;
 
 class Game {
 public:
